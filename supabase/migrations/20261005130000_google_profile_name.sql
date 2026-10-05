@@ -1,4 +1,4 @@
--- Google OAuth stores the display name in raw_user_meta_data.name
+-- Prefer Google's `name` metadata when `full_name` is absent.
 create or replace function public.handle_new_user()
 returns trigger
 language plpgsql

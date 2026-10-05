@@ -55,7 +55,7 @@ export function LoginForm({ next }: { next?: string }) {
 
   return (
     <div>
-      <GoogleAuthButton next={next} label="Continue with Google" />
+      <GoogleAuthButton next={next} label="Sign in with Google" />
       <AuthDivider />
       <form action={onSubmit} className="space-y-4">
         <Field label="Email">
@@ -153,7 +153,7 @@ export function RegisterForm() {
   return (
     <div>
       <GoogleAuthButton label="Sign up with Google" />
-      <AuthDivider label="or register with email" />
+      <AuthDivider />
       <form action={onSubmit} className="space-y-4">
         <Field label="Full name">
           <Input name="fullName" autoComplete="name" required />
