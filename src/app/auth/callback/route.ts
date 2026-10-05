@@ -26,12 +26,26 @@ export async function GET(request: Request) {
     return NextResponse.redirect(new URL("/login?error=auth", url.origin));
   }
 
-  if (next) return NextResponse.redirect(new URL(next, url.origin));
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return NextResponse.redirect(new URL("/login", url.origin));
+
+  const googleName =
+    (typeof user.user_metadata?.full_name === "string" && user.user_metadata.full_name) ||
+    (typeof user.user_metadata?.name === "string" && user.user_metadata.name) ||
+    "";
+
+  if (googleName) {
+    const { data: existing } = await supabase.from("profiles").select("full_name").eq("id", user.id).maybeSingle();
+    const current = existing?.full_name?.trim() ?? "";
+    const looksLikeEmailLocal = !current || current === (user.email?.split("@")[0] ?? "");
+    if (looksLikeEmailLocal) {
+      await supabase.from("profiles").update({ full_name: googleName }).eq("id", user.id);
+    }
+  }
+
+  if (next) return NextResponse.redirect(new URL(next, url.origin));
 
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
   const role = (profile?.role ?? "member") as Role;

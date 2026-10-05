@@ -20,7 +20,11 @@ export default async function LoginPage({
           Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to `.env.local`, then restart the server.
         </p>
       ) : null}
-      {params.error ? <p className="mt-4 text-sm text-destructive">The sign-in link could not be confirmed.</p> : null}
+      {params.error ? (
+        <p className="mt-4 text-sm text-destructive">
+          Google or email sign-in could not be completed. Try again, or use email and password.
+        </p>
+      ) : null}
       <div className="mt-8">
         <LoginForm next={params.next} />
       </div>

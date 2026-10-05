@@ -310,7 +310,11 @@ begin
   insert into public.profiles (id, full_name, email, role, organization_id)
   values (
     new.id,
-    coalesce(nullif(new.raw_user_meta_data ->> 'full_name', ''), split_part(coalesce(new.email, 'member'), '@', 1)),
+    coalesce(
+      nullif(new.raw_user_meta_data ->> 'full_name', ''),
+      nullif(new.raw_user_meta_data ->> 'name', ''),
+      split_part(coalesce(new.email, 'member'), '@', 1)
+    ),
     coalesce(new.email, ''),
     'member',
     v_org

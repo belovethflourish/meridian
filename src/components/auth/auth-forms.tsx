@@ -7,6 +7,7 @@ import { dashboardPath, type Role } from "@/lib/constants";
 import { isSupabaseConfigured } from "@/lib/env";
 import { createClient } from "@/lib/supabase/client";
 import { forgotPasswordSchema, loginSchema, registerSchema, resetPasswordSchema } from "@/lib/validators";
+import { AuthDivider, GoogleAuthButton } from "@/components/auth/google-button";
 import { Field } from "@/components/field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -53,26 +54,30 @@ export function LoginForm({ next }: { next?: string }) {
   }
 
   return (
-    <form action={onSubmit} className="space-y-4">
-      <Field label="Email">
-        <Input name="email" type="email" autoComplete="email" required />
-      </Field>
-      <Field label="Password">
-        <Input name="password" type="password" autoComplete="current-password" required />
-      </Field>
-      {error ? <p className="text-sm text-destructive">{error}</p> : null}
-      <Button className="w-full" disabled={pending} type="submit">
-        {pending ? "Signing in..." : "Sign in"}
-      </Button>
-      <div className="flex justify-between text-sm">
-        <Link href="/forgot-password" className="text-primary hover:underline">
-          Forgot password
-        </Link>
-        <Link href="/register" className="text-muted-foreground hover:text-foreground">
-          Create an account
-        </Link>
-      </div>
-    </form>
+    <div>
+      <GoogleAuthButton next={next} label="Continue with Google" />
+      <AuthDivider />
+      <form action={onSubmit} className="space-y-4">
+        <Field label="Email">
+          <Input name="email" type="email" autoComplete="email" required />
+        </Field>
+        <Field label="Password">
+          <Input name="password" type="password" autoComplete="current-password" required />
+        </Field>
+        {error ? <p className="text-sm text-destructive">{error}</p> : null}
+        <Button className="w-full" disabled={pending} type="submit">
+          {pending ? "Signing in..." : "Sign in"}
+        </Button>
+        <div className="flex justify-between text-sm">
+          <Link href="/forgot-password" className="text-primary hover:underline">
+            Forgot password
+          </Link>
+          <Link href="/register" className="text-muted-foreground hover:text-foreground">
+            Create an account
+          </Link>
+        </div>
+      </form>
+    </div>
   );
 }
 
@@ -146,28 +151,32 @@ export function RegisterForm() {
   }
 
   return (
-    <form action={onSubmit} className="space-y-4">
-      <Field label="Full name">
-        <Input name="fullName" autoComplete="name" required />
-      </Field>
-      <Field label="Email">
-        <Input name="email" type="email" autoComplete="email" required />
-      </Field>
-      <Field label="Password" hint="At least 8 characters.">
-        <Input name="password" type="password" autoComplete="new-password" required />
-      </Field>
-      {error ? <p className="text-sm text-destructive">{error}</p> : null}
-      {message ? <p className="text-sm text-primary">{message}</p> : null}
-      <Button className="w-full" disabled={pending} type="submit">
-        {pending ? "Creating account..." : "Create account"}
-      </Button>
-      <p className="text-sm text-muted-foreground">
-        Already registered?{" "}
-        <Link href="/login" className="text-primary hover:underline">
-          Log in
-        </Link>
-      </p>
-    </form>
+    <div>
+      <GoogleAuthButton label="Sign up with Google" />
+      <AuthDivider label="or register with email" />
+      <form action={onSubmit} className="space-y-4">
+        <Field label="Full name">
+          <Input name="fullName" autoComplete="name" required />
+        </Field>
+        <Field label="Email">
+          <Input name="email" type="email" autoComplete="email" required />
+        </Field>
+        <Field label="Password" hint="At least 8 characters.">
+          <Input name="password" type="password" autoComplete="new-password" required />
+        </Field>
+        {error ? <p className="text-sm text-destructive">{error}</p> : null}
+        {message ? <p className="text-sm text-primary">{message}</p> : null}
+        <Button className="w-full" disabled={pending} type="submit">
+          {pending ? "Creating account..." : "Create account"}
+        </Button>
+        <p className="text-sm text-muted-foreground">
+          Already registered?{" "}
+          <Link href="/login" className="text-primary hover:underline">
+            Log in
+          </Link>
+        </p>
+      </form>
+    </div>
   );
 }
 
