@@ -20,6 +20,11 @@ export const metadata: Metadata = {
     template: `%s · ${APP_NAME}`,
   },
   description: "A workspace for organizations to publish aptitude and attitude assessments, score them, and read the results.",
+  applicationName: APP_NAME,
+  icons: {
+    icon: [{ url: "/icon", type: "image/png" }],
+    apple: [{ url: "/apple-icon", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

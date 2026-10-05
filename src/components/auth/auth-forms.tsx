@@ -126,7 +126,12 @@ export function RegisterForm() {
 
     if (signUpError) {
       setPending(false);
-      setError(signUpError.message);
+      const rateLimited = /only request this after|rate limit|security purposes/i.test(signUpError.message);
+      setError(
+        rateLimited
+          ? "Too many signup attempts. Wait about 30 seconds, then try once more with the same email."
+          : signUpError.message,
+      );
       return;
     }
 
