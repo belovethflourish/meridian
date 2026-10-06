@@ -22,7 +22,7 @@ export default async function LoginPage({
       ) : null}
       {params.error ? (
         <p className="mt-4 text-sm text-destructive">
-          Google or email sign-in could not be completed. Try again, or use email and password.
+          Google, Discord, or email sign-in could not be completed. Try again, or use email and password.
         </p>
       ) : null}
       <div className="mt-8">

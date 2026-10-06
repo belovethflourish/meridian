@@ -313,6 +313,8 @@ begin
     coalesce(
       nullif(new.raw_user_meta_data ->> 'full_name', ''),
       nullif(new.raw_user_meta_data ->> 'name', ''),
+      nullif(new.raw_user_meta_data -> 'custom_claims' ->> 'global_name', ''),
+      nullif(new.raw_user_meta_data ->> 'preferred_username', ''),
       split_part(coalesce(new.email, 'member'), '@', 1)
     ),
     coalesce(new.email, ''),

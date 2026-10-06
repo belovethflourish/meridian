@@ -7,7 +7,7 @@ import { dashboardPath, type Role } from "@/lib/constants";
 import { isSupabaseConfigured } from "@/lib/env";
 import { createClient } from "@/lib/supabase/client";
 import { forgotPasswordSchema, loginSchema, registerSchema, resetPasswordSchema } from "@/lib/validators";
-import { AuthDivider, GoogleAuthButton } from "@/components/auth/google-button";
+import { AuthDivider, SocialAuthButtons } from "@/components/auth/google-button";
 import { Field } from "@/components/field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -55,7 +55,7 @@ export function LoginForm({ next }: { next?: string }) {
 
   return (
     <div>
-      <GoogleAuthButton next={next} label="Sign in with Google" />
+      <SocialAuthButtons next={next} mode="signin" />
       <AuthDivider />
       <form action={onSubmit} className="space-y-4">
         <Field label="Email">
@@ -152,7 +152,7 @@ export function RegisterForm() {
 
   return (
     <div>
-      <GoogleAuthButton label="Sign up with Google" />
+      <SocialAuthButtons mode="signup" />
       <AuthDivider />
       <form action={onSubmit} className="space-y-4">
         <Field label="Full name">
