@@ -14,7 +14,7 @@ export default async function SuperAdminUsersPage() {
       <PageHeader
         eyebrow="Access"
         title="All users"
-        description="Promote a member to admin, or add another super admin. You cannot demote yourself here."
+        description="View admin and member profiles. Promote a member to admin, or add another super admin. You cannot demote yourself here."
       />
       <UsersDirectory users={users} canManageRoles viewerId={profile.id} />
     </div>

@@ -14,9 +14,9 @@ export default function AboutPage() {
           behaviour.
         </p>
         <p>
-          Members take assessments. Admins build them and read results for the people they are allowed to see. Super
-          admins govern roles, settings, and the whole directory. Profile images follow the same boundary: a member
-          never receives an admin portrait, and an admin never receives a super admin portrait.
+          Members take assessments and cannot browse other people&apos;s profiles. Admins build assessments and can
+          view member profiles only. Super admins govern roles, settings, and can view admin and member profiles.
+          Profile images follow the same boundary.
         </p>
         <p>
           Scoring happens in Postgres. Candidates do not receive answer keys while a test is open. The schema also

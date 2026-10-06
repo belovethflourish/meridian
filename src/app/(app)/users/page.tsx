@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { requireUser } from "@/lib/auth";
 import { listDirectory } from "@/lib/data";
@@ -8,10 +9,15 @@ export const metadata: Metadata = { title: "People" };
 
 export default async function UsersPage() {
   const { supabase, profile } = await requireUser();
-  const includeEmail = profile.role !== "member";
+
+  // Members cannot browse other profiles.
+  if (profile.role === "member") {
+    redirect("/profile");
+  }
+
   let users;
   try {
-    users = await listDirectory(supabase, includeEmail);
+    users = await listDirectory(supabase, true);
   } catch (error) {
     return <p className="text-sm text-destructive">{error instanceof Error ? error.message : "Could not load people."}</p>;
   }
@@ -21,7 +27,11 @@ export default async function UsersPage() {
       <PageHeader
         eyebrow="Directory"
         title="People"
-        description="You only see the roles your account is allowed to see. Profile images use the same rule."
+        description={
+          profile.role === "super_admin"
+            ? "Super admins can view admin and member profiles."
+            : "Admins can view member profiles only."
+        }
       />
       <UsersDirectory users={users} canManageRoles={profile.role === "super_admin"} viewerId={profile.id} />
     </div>

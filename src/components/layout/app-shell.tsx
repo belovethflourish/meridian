@@ -57,7 +57,6 @@ function itemsFor(role: Role): Item[] {
     { href: "/dashboard", label: "Dashboard", icon: "dashboard" },
     { href: "/assessments", label: "Assessments", icon: "assessments" },
     { href: "/results", label: "Results", icon: "results" },
-    { href: "/users", label: "People", icon: "users" },
     { href: "/profile", label: "Profile", icon: "profile" },
   ];
 }

@@ -241,9 +241,9 @@ as $$
     join public.profiles target on target.id = target_id
     where viewer.id = auth.uid()
       and (
-        viewer.role = 'super_admin'
-        or (viewer.role = 'admin' and target.role in ('member', 'admin'))
-        or (viewer.role = 'member' and target.role = 'member')
+        target.id = viewer.id
+        or viewer.role = 'super_admin'
+        or (viewer.role = 'admin' and target.role = 'member')
       )
   )
 $$;

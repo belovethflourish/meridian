@@ -16,7 +16,7 @@ export default async function ProfilePage() {
       <PageHeader
         eyebrow={ROLE_LABELS[profile.role]}
         title="Profile"
-        description="Your name and image. Image access follows your role: members see members, admins see members and admins, super admins see everyone."
+        description="Your name and image. Super admins can view admin and member profiles; admins can view member profiles only; members cannot browse other profiles."
       />
       <ProfileEditor
         userId={profile.id}

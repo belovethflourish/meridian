@@ -14,9 +14,17 @@ export default async function AdminUsersPage() {
       <PageHeader
         eyebrow="Directory"
         title="Users"
-        description="Admins see members and other admins. Super admin accounts stay out of this list."
+        description={
+          profile.role === "super_admin"
+            ? "Super admins can view admin and member profiles, and change roles."
+            : "Admins can view member profiles only."
+        }
       />
-      <UsersDirectory users={users} canManageRoles={profile.role === "super_admin"} viewerId={profile.id} />
+      <UsersDirectory
+        users={profile.role === "admin" ? users.filter((user) => user.role === "member") : users}
+        canManageRoles={profile.role === "super_admin"}
+        viewerId={profile.id}
+      />
     </div>
   );
 }
