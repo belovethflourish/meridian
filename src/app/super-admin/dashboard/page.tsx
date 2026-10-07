@@ -3,6 +3,7 @@ import { requireRole } from "@/lib/auth";
 import { categoryLabel } from "@/lib/constants";
 import { countRows } from "@/lib/data";
 import type { Attempt } from "@/lib/types";
+import { MakeAdminPanel } from "@/components/admin/make-admin-panel";
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -11,12 +12,18 @@ export const metadata: Metadata = { title: "Super admin" };
 
 export default async function SuperAdminDashboardPage() {
   const { supabase } = await requireRole(["super_admin"]);
-  const [members, admins, supers, assessments, reports] = await Promise.all([
+  const [members, admins, supers, assessments, reports, memberRows] = await Promise.all([
     countRows(supabase, "profiles", "role", "member"),
     countRows(supabase, "profiles", "role", "admin"),
     countRows(supabase, "profiles", "role", "super_admin"),
     countRows(supabase, "assessments"),
     countRows(supabase, "reports"),
+    supabase
+      .from("profiles")
+      .select("id, full_name, email")
+      .eq("role", "member")
+      .order("full_name", { ascending: true })
+      .limit(20),
   ]);
 
   const { data } = await supabase.from("attempts").select("category_scores, status").neq("status", "in_progress").limit(500);
@@ -29,6 +36,8 @@ export default async function SuperAdminDashboardPage() {
       totals.set(key, current);
     }
   }
+
+  const promoteList = (memberRows.data ?? []) as { id: string; full_name: string; email: string }[];
 
   return (
     <div>
@@ -53,6 +62,9 @@ export default async function SuperAdminDashboardPage() {
           </Card>
         ))}
       </div>
+
+      <MakeAdminPanel members={promoteList} />
+
       <Card className="mt-6">
         <CardHeader>
           <CardTitle>Category averages</CardTitle>

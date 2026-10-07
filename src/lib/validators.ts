@@ -87,6 +87,10 @@ export const roleSchema = z.object({
   role: z.enum(ROLES),
 });
 
+export const makeAdminSchema = z.object({
+  email: z.string().trim().email("Enter a valid email address."),
+});
+
 export const settingsSchema = z.object({
   platform_name: z.string().trim().min(2).max(60),
   support_email: z.string().trim().email(),
